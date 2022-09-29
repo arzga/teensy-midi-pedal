@@ -18,6 +18,7 @@ int num_buttons = 2;
 int num_pots = 4;
 int num_leds = 2;
 
+bool first_update = true;
 bool midi_learn_mode = false;
 
 int intro_led_sweep_ms = 2500;
@@ -92,7 +93,10 @@ void setup() {
 
 void controller_moved() {
   set_midi_learn(false);
-  intro_led_sweep_ms = 0;
+  if (!first_update) {
+    // Cancel intro
+    intro_led_sweep_ms = 0;
+  }
 }
 
 void set_midi_learn(bool enabled) {
@@ -140,5 +144,6 @@ void loop() {
     led.update(delay_ms);
   }
 
+  first_update = false;
   delay(delay_ms);
 }
