@@ -9,11 +9,18 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 
 ## Function
 
-- Pressing button A sends MIDI CC 67 with value 127 when led off.
-- Pressing button A sends MIDI CC 67 with value 0 when led on.
-- Pressing button B sends MIDI CC 68 with value 127 when led off.
-- Pressing button B sends MIDI CC 68 with value 0 when led on.
-- MIDI CC state is sent periodically (to be revised due to MIDI learn problems - but perhaps mute other controllers when a button is pressed or something)
+- Pressing L button sends MIDI CC 67 with value 127 when led off.
+- Pressing L button sends MIDI CC 67 with value 0 when led on.
+- Pressing R button sends MIDI CC 68 with value 127 when led off.
+- Pressing R button sends MIDI CC 68 with value 0 when led on.
+- Knob 1 sends MIDI CC 69
+- Knob 2 sends MIDI CC 70
+- Knob 3 sends MIDI CC 71
+- Knob 4 sends MIDI CC 72
+- MIDI CC state is sent periodically
+- Pressing L+R buttons simultaneously enables "MIDI learn" mode
+
+In MIDI learn mode leds alternate and periodical MIDI CC send is disabled until you touch any button or knob. This prevents CC messages from messing with learning process.
 
 ## Requirements
 

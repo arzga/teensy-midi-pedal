@@ -8,15 +8,16 @@ class LedFX {
   private:
 
   int m_pin;
-  float m_color;
+  float m_color = -1;
   float m_color_overlay;
-  int m_overlay_millis;
+  int m_overlay_millis = -1;
   
   public:
   
   LedFX(int pin) {
     m_pin = pin;
     pinMode(m_pin, OUTPUT);
+    control_pin(-1);
   }
 
   void setColor(float color) {

@@ -29,6 +29,7 @@ class Pot {
     
     if (m_smooth_value < 0) {
       m_smooth_value = current_value;
+      m_midi_value = round(m_smooth_value * 127);
     } else {
       float adjust_ratio = m_responsive_timer > 0 ? 0.1f : 0.03f;
       m_smooth_value = ((1.0f-adjust_ratio) * m_smooth_value) + (adjust_ratio * current_value);
