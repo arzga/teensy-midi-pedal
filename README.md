@@ -20,7 +20,7 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 - MIDI CC state is sent periodically
 - Pressing L+R buttons simultaneously enables "MIDI learn" mode
 
-In MIDI learn mode leds alternate and periodical MIDI CC send is disabled until you touch any button or knob. This prevents CC messages from messing with learning process.
+In MIDI learn mode periodical MIDI CC send is disabled until you touch any button or knob. This prevents CC messages from messing with learning process. LEDs alternate to indicate learn mode. 
 
 ## Requirements
 
