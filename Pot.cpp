@@ -32,14 +32,15 @@ class Pot {
     } else {
       float adjust_ratio = m_responsive_timer > 0 ? 0.1f : 0.03f;
       m_smooth_value = ((1.0f-adjust_ratio) * m_smooth_value) + (adjust_ratio * current_value);
-      if (abs(current_value - m_smooth_value) > 0.1f) {
-        m_responsive_timer = 200;
-      }
     }
     
     int midi_value = round(m_smooth_value * 127);
+
+    if (abs(midi_value - m_midi_value) > 1) {
+      m_responsive_timer = 200;
+    }
     
-    if ( midi_value != m_midi_value ) {
+    if ( m_responsive_timer > 0 && midi_value != m_midi_value ) {
       m_midi_value = midi_value;
       if (on_move) {
         on_move(midi_value);
