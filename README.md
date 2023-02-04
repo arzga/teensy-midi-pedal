@@ -46,5 +46,7 @@ In MIDI learn mode periodical MIDI CC send is disabled until you touch any butto
 - A Teensy board (tested with Teensy 4.0) and Teensyduino (tested with 1.8.13)
 - A circuit
   - Teensy button pins connected via momentary switch to GND
-  - Teensy led pins connected via 3.3kOhm to led, then GND.
-  - Teensy knob pins connected to 10kOhm potentiomenter center/wiper. +3.3V connected to pot left side (from below), GND to right.
+  - Teensy LED pins (PWM capable) connected via 3.3kOhm to led, then GND.
+  - Teensy knob pins (analog read capable) connected to 10kOhm potentiomenter center/wiper. +3.3V connected to pot left side (from below), GND to right.
+
+Actual pin numbers can be configured in the sketch's setup method.
