@@ -6,8 +6,15 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 
 - An USB MIDI device that can act as a foot switch for a headless synth/guitar effect like Raspberry Pi running Patchbox OS/ModeP.
 - Powered from USB.
+- All MIDI CC states are sent periodically
 
 ## Function
+
+- Pressing L+R buttons simultaneously enables "MIDI learn" mode
+- Holding L button for 1 seconds switches to normal controls
+- Holding L button for 2 seconds switches to alternative controls
+
+### Normal controls
 
 - Pressing L button sends MIDI CC 67 with value 127 when led off.
 - Pressing L button sends MIDI CC 67 with value 0 when led on.
@@ -17,8 +24,20 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 - Knob 2 sends MIDI CC 70
 - Knob 3 sends MIDI CC 71
 - Knob 4 sends MIDI CC 72
-- MIDI CC state is sent periodically
 - Pressing L+R buttons simultaneously enables "MIDI learn" mode
+
+### Alternative controls
+
+- Pressing L button sends MIDI CC 80 with value 127 when led off.
+- Pressing L button sends MIDI CC 80 with value 0 when led on.
+- Pressing R button sends MIDI CC 81 with value 127 when led off.
+- Pressing R button sends MIDI CC 81 with value 0 when led on.
+- Knob 1 sends MIDI CC 82
+- Knob 2 sends MIDI CC 83
+- Knob 3 sends MIDI CC 84
+- Knob 4 sends MIDI CC 85
+
+### Midi learn mode
 
 In MIDI learn mode periodical MIDI CC send is disabled until you touch any button or knob. This prevents CC messages from messing with learning process. LEDs alternate to indicate learn mode. 
 

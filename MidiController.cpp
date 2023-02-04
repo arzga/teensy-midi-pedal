@@ -32,7 +32,7 @@ class MidiController {
     sendStateAsMIDI();
   }
 
-  bool getState() {
+  int getState() {
     return m_state;
   }
 
