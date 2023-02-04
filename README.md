@@ -24,7 +24,6 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 - Knob 2 sends MIDI CC 70
 - Knob 3 sends MIDI CC 71
 - Knob 4 sends MIDI CC 72
-- Pressing L+R buttons simultaneously enables "MIDI learn" mode
 
 ### Alternative controls
 
