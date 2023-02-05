@@ -9,12 +9,14 @@ class MidiController {
   int m_midi_channel = 1;
   int m_cc;
   int m_state;
+  bool m_continuous_cc;
 
   public:
 
-  MidiController(int midi_cc, int initial_state) {
+  MidiController(int midi_cc, int initial_state, bool continuous_cc = true) {
     m_cc = midi_cc;
     m_state = initial_state;
+    m_continuous_cc = continuous_cc;
   }
 
   int toggleState() {
@@ -38,6 +40,12 @@ class MidiController {
 
   void sendStateAsMIDI() {
     usbMIDI.sendControlChange(m_cc, m_state, m_midi_channel);
+  }
+
+  void update() {
+    if (m_continuous_cc) {
+      sendStateAsMIDI();
+    }
   }
 };
 

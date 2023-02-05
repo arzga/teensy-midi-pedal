@@ -10,7 +10,9 @@ class LedFX {
   int m_pin;
   float m_color = -1;
   float m_color_overlay;
+  int m_transition_ms = 0;
   int m_overlay_millis = -1;
+  float m_effectiveColor = 0;
   
   public:
   
@@ -23,13 +25,14 @@ class LedFX {
   void setColor(float color) {
     m_color = color;
     m_overlay_millis = 0;
-    control_pin(color);
+    // control_pin(color);
   }
 
-  void setColorOverlay(float color, int overlay_millis) {
+  void setColorOverlay(float color, int overlay_millis, int transition_ms = 0) {
     m_color_overlay = color;
     m_overlay_millis = overlay_millis;
-    control_pin(color);
+    m_transition_ms = transition_ms;
+    // control_pin(color);
   }
 
   void control_pin(float color) {
@@ -41,14 +44,22 @@ class LedFX {
   }
 
   void update(int delta_ms) {
-    float effectiveColor = m_color;
-
     if (m_overlay_millis >= 0) {
       m_overlay_millis -= delta_ms;
-      effectiveColor = m_color_overlay;
+      if (m_transition_ms > 0) {
+        if (m_effectiveColor < m_color_overlay) {
+          m_effectiveColor = min(m_effectiveColor + ((float)delta_ms / m_transition_ms), m_color_overlay);
+        } else {
+          m_effectiveColor = max(m_effectiveColor - ((float)delta_ms / m_transition_ms), m_color_overlay);
+        }
+      } else {
+        m_effectiveColor = m_color_overlay;
+      }
+    } else {
+      m_effectiveColor = m_color;
     }
+    control_pin(m_effectiveColor);
 
-    control_pin(effectiveColor);
   }
 };
 
