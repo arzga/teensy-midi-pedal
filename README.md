@@ -1,5 +1,7 @@
 # Teensy MIDI Pedal
 
+![Stompbox](/hardware/stompbox.jpg?raw=true "Stompbox")
+
 Send MIDI messages from a simple Teensy-powered circuit to a host computer via USB MIDI.
 
 ## Goals
