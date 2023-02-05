@@ -6,7 +6,7 @@ Send MIDI messages from a simple Teensy-powered circuit to a host computer via U
 
 - An USB MIDI device that can act as a foot switch for a headless synth/guitar effect like Raspberry Pi running Patchbox OS/ModeP.
 - Powered from USB.
-- All MIDI CC states are sent periodically
+- MIDI CC states are sent periodically for toggle buttons and knobs (not for special "momentary buttons")
 
 ## Function
 
