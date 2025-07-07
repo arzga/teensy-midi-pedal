@@ -24,6 +24,28 @@
 #define CONTROL_POT_4 8
 #define NUM_CONTROLLERS 9
 
+
+MidiController default_button_a = MidiController(67, 0);
+MidiController default_button_b = MidiController(68, 0);
+MidiController default_pot1 = MidiController(69, 64);
+MidiController default_pot2 = MidiController(70, 64);
+MidiController default_pot3 = MidiController(71, 64);
+MidiController default_pot4 = MidiController(72, 64);
+
+MidiController default_button_b_option1 = MidiController(104, 0, false); // Momentary
+MidiController default_button_b_option2 = MidiController(105, 0, false); // Momentary
+MidiController default_button_b_option3 = MidiController(106, 0, false); // Momentary
+
+MidiController alt1_button_a = MidiController(86, 127);
+MidiController alt1_button_b = MidiController(87, 0);
+
+MidiController alt2_button_a = MidiController(73, 127);
+MidiController alt2_button_b = MidiController(74, 127);
+MidiController alt2_pot1 = MidiController(75, 64);
+MidiController alt2_pot2 = MidiController(76, 64);
+MidiController alt2_pot3 = MidiController(77, 64);
+MidiController alt2_pot4 = MidiController(78, 64);
+
 int num_controllers = NUM_CONTROLLERS;
 int num_buttons = 2;
 int num_pots = 4;
@@ -42,11 +64,59 @@ int page = 0;
 
 std::vector<Button> buttons;
 std::vector<Pot> pots;
-std::vector<MidiController> midi_controllers;
+
+std::vector<std::reference_wrapper<MidiController>> midi_controllers = {
+  default_button_a,
+  default_button_b,
+  default_button_b_option1,
+  default_button_b_option2,
+  default_button_b_option3,
+  default_pot1,
+  default_pot2,
+  default_pot3,
+  default_pot4,
+};
+
+// Store references of Midi Controllers in pages using std::reference_wrapper
+std::vector<std::vector<std::reference_wrapper<MidiController>>> pages = {
+  {
+    default_button_a,
+    default_button_b,
+    default_button_b_option1,
+    default_button_b_option2,
+    default_button_b_option3,
+    default_pot1,
+    default_pot2,
+    default_pot3,
+    default_pot4,
+  },
+  {
+    alt1_button_a,
+    alt1_button_b,
+    default_button_b_option1,
+    default_button_b_option2,
+    default_button_b_option3,
+    default_pot1,
+    default_pot2,
+    default_pot3,
+    default_pot4,
+  },
+  {
+    alt2_button_a,
+    alt2_button_b,
+    default_button_b_option1,
+    default_button_b_option2,
+    default_button_b_option3,
+    alt2_pot1,
+    alt2_pot2,
+    alt2_pot3,
+    alt2_pot4,
+  },
+};
+
 std::vector<LedFX> leds;
 
 void setup() {
-  midi_controllers.reserve(num_controllers * num_options_a);
   buttons.reserve(num_buttons);
   leds.reserve(num_leds);
   pots.reserve(num_pots);
@@ -62,39 +132,51 @@ void setup() {
   buttons.emplace_back(BUTTON_L_PIN);
   buttons.emplace_back(BUTTON_R_PIN);
 
+  // Define unique controller
+  /*
+  midi_controllers.push_back(default_button_a);
+  midi_controllers.push_back(default_button_b);
+  midi_controllers.push_back(default_button_b_option1);
+  midi_controllers.push_back(default_button_b_option2);
+  midi_controllers.push_back(default_button_b_option3);
+  midi_controllers.push_back(default_pot1);
+  midi_controllers.push_back(default_pot2);
+  midi_controllers.push_back(default_pot3);
+  midi_controllers.push_back(default_pot4);
+
   // Page 1
-  midi_controllers.emplace_back(67, 0); // Btn 0
-  midi_controllers.emplace_back(68, 0);
-  midi_controllers.emplace_back(100, 0, false); // Momentary
-  midi_controllers.emplace_back(101, 0, false); // Momentary
-  midi_controllers.emplace_back(103, 0, false); // Momentary
-  midi_controllers.emplace_back(69, 64); // Pot 0
-  midi_controllers.emplace_back(70, 64);
-  midi_controllers.emplace_back(71, 64);
-  midi_controllers.emplace_back(72, 64);
+  pages.push_back(default_button_a);
+  pages.push_back(default_button_b);
+  pages.push_back(default_button_b_option1);
+  pages.push_back(default_button_b_option2);
+  pages.push_back(default_button_b_option3);
+  pages.push_back(default_pot1);
+  pages.push_back(default_pot2);
+  pages.push_back(default_pot3);
+  pages.push_back(default_pot4);
 
   // Page 2
-  midi_controllers.emplace_back(80, 127); // Btn 0
-  midi_controllers.emplace_back(81, 127);
-  midi_controllers.emplace_back(104, 0, false); // Momentary
-  midi_controllers.emplace_back(105, 0, false); // Momentary
-  midi_controllers.emplace_back(106, 0, false); // Momentary
-  midi_controllers.emplace_back(82, 64); // Pot 0
-  midi_controllers.emplace_back(83, 64);
-  midi_controllers.emplace_back(84, 64);
-  midi_controllers.emplace_back(85, 64);
+  pages.push_back(alt1_button_a);
+  pages.push_back(alt1_button_b);
+  pages.push_back(default_button_b_option1);
+  pages.push_back(default_button_b_option2);
+  pages.push_back(default_button_b_option3);
+  pages.push_back(default_pot1);
+  pages.push_back(default_pot2);
+  pages.push_back(default_pot3);
+  pages.push_back(default_pot4);
 
   // Page 3
-  midi_controllers.emplace_back(86, 127); // Btn 0
-  midi_controllers.emplace_back(87, 0);
-  midi_controllers.emplace_back(104, 0, false); // Momentary
-  midi_controllers.emplace_back(105, 0, false); // Momentary
-  midi_controllers.emplace_back(106, 0, false); // Momentary
-  midi_controllers.emplace_back(88, 64); // Pot 0
-  midi_controllers.emplace_back(89, 64);
-  midi_controllers.emplace_back(90, 64);
-  midi_controllers.emplace_back(91, 64);
-
+  pages.push_back(alt2_button_a);
+  pages.push_back(alt2_button_b);
+  pages.push_back(alt2_button_b_option1);
+  pages.push_back(alt2_button_b_option2);
+  pages.push_back(alt2_button_b_option3);
+  pages.push_back(alt2_pot1);
+  pages.push_back(alt2_pot2);
+  pages.push_back(alt2_pot3);
+  pages.push_back(alt2_pot4);
+*/
   buttons[0].on_click = [&]() {
     controller_moved();
     unsigned int option = (buttons[0].get_pressed_ms() + 250 ) / 1000;
@@ -102,10 +184,10 @@ void setup() {
       // Change controller page
       page = min(option - 1, num_options_a - 1);
       // Set leds to display state of page controllers
-      leds[0].setColor(midi_controllers[CONTROL_BUTTON_A + (page * num_controllers)].getState() / 127.0);
-      leds[1].setColor(midi_controllers[CONTROL_BUTTON_B + (page * num_controllers)].getState() / 127.0);
+      leds[0].setColor(pages[page][CONTROL_BUTTON_A].get().getState() / 127.0);
+      leds[1].setColor(pages[page][CONTROL_BUTTON_B].get().getState() / 127.0);
     } else {
-      int state = midi_controllers[CONTROL_BUTTON_A + (page * num_controllers)].toggleState();
+      int state = pages[page][CONTROL_BUTTON_A].get().toggleState();
       leds[0].setColor(state / 127.0);
     }
   };
@@ -117,35 +199,35 @@ void setup() {
       // Move option to range [0..num_options[
       option = min(option - 1, num_options_b - 1);
       // Send midi button pulse
-      midi_controllers[CONTROL_BUTTON_B_MOMENTARY_1S + option + (page * num_controllers)].set(127);
-      midi_controllers[CONTROL_BUTTON_B_MOMENTARY_1S + option + (page * num_controllers)].set(0);
+      pages[page][CONTROL_BUTTON_B_MOMENTARY_1S + option].get().set(127);
+      pages[page][CONTROL_BUTTON_B_MOMENTARY_1S + option].get().set(0);
     } else {
-      int state = midi_controllers[CONTROL_BUTTON_B + (page * num_controllers)].toggleState();
+      int state = pages[page][CONTROL_BUTTON_B].get().toggleState();
       leds[1].setColor(state / 127.0);
     }
   };
 
   pots[0].on_move = [&](int midi_value) {
     controller_moved();
-    midi_controllers[CONTROL_POT_1 + page * num_controllers].set(midi_value);
+    pages[page][CONTROL_POT_1].get().set(midi_value);
     leds[0].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[1].on_move = [&](int midi_value) {
     controller_moved();
-    midi_controllers[CONTROL_POT_2 + page * num_controllers].set(midi_value);
+    pages[page][CONTROL_POT_2].get().set(midi_value);
     leds[0].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[2].on_move = [&](int midi_value) {
     controller_moved();
-    midi_controllers[CONTROL_POT_3 + page * num_controllers].set(midi_value);
+    pages[page][CONTROL_POT_3].get().set(midi_value);
     leds[1].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[3].on_move = [&](int midi_value) {
     controller_moved();
-    midi_controllers[CONTROL_POT_4 + page * num_controllers].set(midi_value);
+    pages[page][CONTROL_POT_4].get().set(midi_value);
     leds[1].setColorOverlay(midi_value / 127.0, 500);
   };
 }
@@ -218,7 +300,7 @@ void loop() {
   if (!midi_learn_mode && millis() - last_midi_send_ms > MIDI_SEND_INTERVAL_MS) {
     last_midi_send_ms = millis();
     for (auto& midi_controller: midi_controllers) {
-      midi_controller.update();
+      midi_controller.get().update();
     }
   }
 
