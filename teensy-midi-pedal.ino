@@ -5,6 +5,10 @@
 #include "LedFX.cpp"
 #include "TableInterpolator.cpp"
 
+#define BUTTON_LONG_PRESS_MS 650
+#define BUTTON_LONG_PRESS_SNAP_MS 150          // Round towards next page
+#define BUTTON_LONG_PRESS_ANTICIPATION_MS 300  // Display long press fx after this
+
 #define BUTTON_L_PIN A0
 #define BUTTON_R_PIN A9
 #define POT_START_PIN A1
@@ -179,7 +183,7 @@ void setup() {
 */
   buttons[0].on_click = [&]() {
     controller_moved();
-    unsigned int option = (buttons[0].get_pressed_ms() + 250 ) / 1000;
+    unsigned int option = (buttons[0].get_pressed_ms() + BUTTON_LONG_PRESS_SNAP_MS ) / BUTTON_LONG_PRESS_MS;
     if (option > 0) {
       // Change controller page
       page = min(option - 1, num_options_a - 1);
@@ -194,7 +198,7 @@ void setup() {
 
   buttons[1].on_click = [&]() {
     controller_moved();
-    unsigned int option = (buttons[1].get_pressed_ms() + 250 ) / 1000;
+    unsigned int option = (buttons[1].get_pressed_ms() + BUTTON_LONG_PRESS_SNAP_MS ) / BUTTON_LONG_PRESS_MS;
     if (option > 0) {
       // Move option to range [0..num_options[
       option = min(option - 1, num_options_b - 1);
@@ -267,22 +271,28 @@ void loop() {
   } else if (buttons[0].is_pressed()) {
     // Only blink up to number of pages
     unsigned int pressed_ms = buttons[0].get_pressed_ms();
-    if (pressed_ms > (num_options_a + 1) * 1000) {
+    if (pressed_ms >= (num_options_a + 1) * BUTTON_LONG_PRESS_MS) {
       leds[0].setColorOverlay(0.0f, 0);
       leds[1].setColorOverlay(0.0f, 0);
-    } else if (pressed_ms > 500) {
-      leds[0].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % 1000, 0, 500.0f), 0);
-      leds[1].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % 1000, 0, 500.0f), 0);
+    } else if (pressed_ms > BUTTON_LONG_PRESS_MS) {
+      leds[0].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % BUTTON_LONG_PRESS_MS, 0, 500.0f), 0);
+      leds[1].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % BUTTON_LONG_PRESS_MS, 0, 500.0f), 0);
+    } else if (pressed_ms > BUTTON_LONG_PRESS_ANTICIPATION_MS) {
+      leds[0].setColorOverlay(0.0f, 0);
+      leds[1].setColorOverlay(0.0f, 0);
     }
   } else if (buttons[1].is_pressed()) {
     // Only blink up to number of momentary options
     unsigned int pressed_ms = buttons[1].get_pressed_ms();
-    if (pressed_ms > (num_options_b + 1) * 1000) {
+    if (pressed_ms >= (num_options_b + 1) * BUTTON_LONG_PRESS_MS) {
       leds[0].setColorOverlay(0.0f, 0);
       leds[1].setColorOverlay(0.0f, 0);
-    } else if (pressed_ms > 500) {
-      leds[0].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % 1000, 0, 500.0f), 0);
-      leds[1].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % 1000, 0, 500.0f), 0);
+    } else if (pressed_ms > BUTTON_LONG_PRESS_MS) {
+      leds[0].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % BUTTON_LONG_PRESS_MS, 0, 500.0f), 0);
+      leds[1].setColorOverlay(TableInterpolator::interpolateLinearf(fadeOut, ARRAYLEN(fadeOut), pressed_ms % BUTTON_LONG_PRESS_MS, 0, 500.0f), 0);
+    } else if (pressed_ms > BUTTON_LONG_PRESS_ANTICIPATION_MS) {
+      leds[0].setColorOverlay(0.0f, 0);
+      leds[1].setColorOverlay(0.0f, 0);
     }
   } else {
     if (midi_learn_mode) {
