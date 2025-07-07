@@ -15,9 +15,9 @@ Teensy program for sending MIDI CC messages from a simple Teensy-powered circuit
 ## Function
 
 - Pressing L or R button toggles a MIDI CC between value 0 (off) and 127 (on). The actual controller depends on the selected page (1, 2 or 3).
-- Holding L button for 1 seconds switches to normal controls (page 1, e.g. fx & tone controls)
-- Holding L button for 2 seconds switches to alternative controls 1 (page 2, e.g. looper)
-- Holding L button for 3 seconds switches to alternative controls 2 (page 3, e.g. amp/cab simulation)
+- Holding L button for 1 seconds switches to page 1 (e.g. fx & tone controls)
+- Holding L button for 2 seconds switches to page 2 (e.g. looper controls)
+- Holding L button for 3 seconds switches to page 3 (e.g. amp/cab simulation)
 - Pressing L+R buttons simultaneously enables "MIDI learn" mode (see below)
 
 ### MIDI learn mode ("teach" to be more accurate)
