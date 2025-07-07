@@ -6,8 +6,7 @@ Teensy program for sending MIDI CC messages from a simple Teensy-powered circuit
 
 ## Goals
 
-- USB MIDI device
-- Powered from USB
+- USB powered MIDI device
 - Controls an external (guitar) FX with MIDI CC
 - State of the FX is visible on the controller (sends all toggle button/knob states MIDI CC periodically)
 - Compatible with Patchbox OS/ModeP running on a Raspberry Pi 3+
