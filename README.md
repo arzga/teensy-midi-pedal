@@ -6,35 +6,35 @@
 
 My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Raspberry Pi based ModeP virtual pedalboard](https://blokas.io/modep/) (by awesome folks at MOD and Blokas) as it's versatile and compact, but to control it I needed a separate phone, computer or display. 
 
-_Enter the MIDI controller stompbox_: I can now play and control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
+**Enter the MIDI controller stompbox**: I can now play and control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
 
-This repository contains
+### This repository contains
 
 - The source code for a [Teensy microcontroller](https://www.pjrc.com/store/teensy40.html) that reads analog knobs and sends MIDI CC messages to a host computer via USB MIDI
 - [Wiring sketches](/hardware) and my print template I used with a [readymade enclosure](https://en.uraltone.com/uraltone-1590bb-double-valmiiksi-porattu-efektikotelo.html)
 
-## Features
+## Features (default setup)
 
-- USB powered MIDI device
-- Controls an external (guitar) FX with MIDI CC
-- FX adjustments are visible from controller knob positions and LEDs
-- Sends all toggle button/knob states MIDI CC periodically
+- USB powered MIDI device that controls an external (guitar) FX
+- Effect settings are constantly synced and visible from LEDs and controller knob positions
+- 2 foot switches (momentary), 4 analog knobs, 2 leds
+- 3 "pages" with different control mappings
 - Compatible with [Patchbox OS/ModeP virtual pedalboard](https://blokas.io/modep/) running on a Raspberry Pi (tested with 3B)
 
 ## Usage
 
-- Pressing L or R button toggles an effect on/off. The actual action depends on the selected controller page (1, 2 or 3).
+- Tapping the left (L) or right (R) foot switch toggles an effect on/off. Action depends on the page (1, 2 or 3).
 - Holding L button for 1 led blinks switches to page 1 (e.g. fx & tone controls)
 - Holding L button for 2 led blinks switches to page 2 (e.g. looper controls)
 - Holding L button for 3 led blinks switches to page 3 (e.g. amp/cab simulation)
-- Holding R button for 1 to 3 led blinks can perform an auxillary action like switch the pedalboard or undo/redo looper.
+- Holding R button for 1 to 3 led blinks performs an auxillary action (e.g. switch patch or undo/redo looper)
 - Pressing L+R buttons simultaneously enables "MIDI teach" mode (see below)
 
 ### MIDI teach mode
 
-MIDI teach mode waits for you to turn a knob or press a button before sending any MIDI. LEDs alternate to indicate learn mode.
+MIDI teach mode waits for you to turn a knob or press a button before sending any MIDI. LEDs alternate to indicate mode.
 
-Why is this special mode even needed? During normal operation, the controller periodically sends current MIDI CC values to the receiving MIDI device. Without the "teach mode", this MIDI dump would mess the learning process.  
+Why a teach mode? During normal operation, the controller periodically sends current MIDI CC values to the receiving MIDI device to keep the effect device in sync. Without the "teach mode", this would mess the MIDI learn.
 
 ### Page 1 default MIDI CCs (e.g. for controlling Tone/FX)
 
@@ -80,11 +80,12 @@ Why is this special mode even needed? During normal operation, the controller pe
 
 ## Requirements
 
-- A Teensy board (tested with Teensy 4.0) and Teensyduino (tested with 1.8.13)
-- Arduino IDE with additional Teensy board manager URL configured
-- [A wiring circuit](/hardware/connections.pdf)
+- A MIDI compatible effects board (or a synthesizer)
+- A Teensy microcontroller (tested with Teensy 4.0)
+- Arduino IDE with additional Teensy board manager URL configured (tested with 2.1.0)
+- [A wiring circuit](/hardware/connections.pdf) like this one
   - Teensy button pins connected via momentary switch to GND
   - Teensy LED pins (PWM capable) connected via 3.3kOhm to led, then GND.
   - Teensy knob pins (analog read capable) connected to 10kOhm potentiomenter center/wiper. +3.3V connected to pot left side (from below), GND to right.
 
-Actual pin numbers can be configured in the sketch's setup method.
+Actual pin numbers can be configured in the program sketch's setup method.
