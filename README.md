@@ -2,9 +2,11 @@
 
 ![Stompbox](/hardware/stompbox-with-print.jpg?raw=true "Stompbox")
 
-My motivation of this project was to adjust my MIDI controllable guitar effects with ease. My setup with [Patchbox OS/ModeP virtual pedalboard](https://blokas.io/modep/) is compact and sounds great, but required a separate phone, computer or display for any adjustments during play.
+## Why all this?
 
-Enter my MIDI controller stompbox: With few knobs and toggle buttons I can now turn on effects, control looper and adjust the key parameters. Once I have built the virtual pedalboards and bound the parameters to knobs and switches, I'm can play guitar conveniently without having a clumsy screen around.
+My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Patchbox OS/ModeP virtual pedalboard](https://blokas.io/modep/) setup as it's versatile and compact, but required a separate phone, computer or display for any adjustments during play. 
+
+*Enter my MIDI controller stompbox*: I can now control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
 
 This repository contains the source code for a [Teensy microcontroller](https://www.pjrc.com/store/teensy40.html) that reads analog knobs and sends MIDI CC messages to a host computer via USB MIDI, along with the [wiring sketches](/hardware) and my print templates for the a [readymade enclosure](https://en.uraltone.com/uraltone-1590bb-double-valmiiksi-porattu-efektikotelo.html).
 
