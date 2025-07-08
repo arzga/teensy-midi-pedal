@@ -4,7 +4,7 @@
 
 ## Why all this?
 
-My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Patchbox OS/ModeP virtual pedalboard](https://blokas.io/modep/) setup as it's versatile and compact, but required a separate phone, computer or display for any adjustments during play. 
+My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Raspberry Pi based ModeP virtual pedalboard](https://blokas.io/modep/) (by awesome folks at MOD and Blokas) as it's versatile and compact, but it required a separate phone, computer or display for any adjustments during play. 
 
 *Enter my MIDI controller stompbox*: I can now control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
 
