@@ -1,7 +1,9 @@
 #include <vector>
+#include "MidiEvent.cpp"
 #include "Button.cpp"
 #include "Pot.cpp"
 #include "MidiController.cpp"
+#include "MidiProgramChange.cpp"
 #include "LedFX.cpp"
 #include "TableInterpolator.cpp"
 
@@ -36,9 +38,13 @@ MidiController default_pot2 = MidiController(70, 64);
 MidiController default_pot3 = MidiController(71, 64);
 MidiController default_pot4 = MidiController(72, 64);
 
-MidiController default_button_b_option1 = MidiController(104, 0, false); // Momentary
-MidiController default_button_b_option2 = MidiController(105, 0, false); // Momentary
-MidiController default_button_b_option3 = MidiController(106, 0, false); // Momentary
+MidiProgramChange default_button_b_option1 = MidiProgramChange(0, 15); // Momentary
+MidiProgramChange default_button_b_option2 = MidiProgramChange(1, 15); // Momentary
+MidiProgramChange default_button_b_option3 = MidiProgramChange(2, 15); // Momentary
+
+MidiController alt1_button_b_option1 = MidiController(104, 0, false); // Momentary
+MidiController alt1_button_b_option2 = MidiController(105, 0, false); // Momentary
+MidiController alt1_button_b_option3 = MidiController(106, 0, false); // Momentary
 
 MidiController alt1_button_a = MidiController(86, 127);
 MidiController alt1_button_b = MidiController(87, 0);
@@ -72,9 +78,6 @@ std::vector<Pot> pots;
 std::vector<std::reference_wrapper<MidiController>> midi_controllers = {
   default_button_a,
   default_button_b,
-  default_button_b_option1,
-  default_button_b_option2,
-  default_button_b_option3,
   default_pot1,
   default_pot2,
   default_pot3,
@@ -82,7 +85,7 @@ std::vector<std::reference_wrapper<MidiController>> midi_controllers = {
 };
 
 // Store references of Midi Controllers in pages using std::reference_wrapper
-std::vector<std::vector<std::reference_wrapper<MidiController>>> pages = {
+std::vector<std::vector<std::reference_wrapper<MidiEvent>>> pages = {
   {
     default_button_a,
     default_button_b,
@@ -97,9 +100,9 @@ std::vector<std::vector<std::reference_wrapper<MidiController>>> pages = {
   {
     alt1_button_a,
     alt1_button_b,
-    default_button_b_option1,
-    default_button_b_option2,
-    default_button_b_option3,
+    alt1_button_b_option1,
+    alt1_button_b_option2,
+    alt1_button_b_option3,
     default_pot1,
     default_pot2,
     default_pot3,
@@ -108,9 +111,9 @@ std::vector<std::vector<std::reference_wrapper<MidiController>>> pages = {
   {
     alt2_button_a,
     alt2_button_b,
-    default_button_b_option1,
-    default_button_b_option2,
-    default_button_b_option3,
+    alt1_button_b_option1,
+    alt1_button_b_option2,
+    alt1_button_b_option3,
     alt2_pot1,
     alt2_pot2,
     alt2_pot3,
@@ -188,10 +191,10 @@ void setup() {
       // Change controller page
       page = min(option - 1, num_options_a - 1);
       // Set leds to display state of page controllers
-      leds[0].setColor(pages[page][CONTROL_BUTTON_A].get().getState() / 127.0);
-      leds[1].setColor(pages[page][CONTROL_BUTTON_B].get().getState() / 127.0);
+      leds[0].setColor(pages[page][CONTROL_BUTTON_A].get().getValue() / 127.0);
+      leds[1].setColor(pages[page][CONTROL_BUTTON_B].get().getValue() / 127.0);
     } else {
-      int state = pages[page][CONTROL_BUTTON_A].get().toggleState();
+      int state = pages[page][CONTROL_BUTTON_A].get().toggleValue();
       leds[0].setColor(state / 127.0);
     }
   };
@@ -202,36 +205,35 @@ void setup() {
     if (option > 0) {
       // Move option to range [0..num_options[
       option = min(option - 1, num_options_b - 1);
-      // Send midi button pulse
-      pages[page][CONTROL_BUTTON_B_MOMENTARY_1S + option].get().set(127);
-      pages[page][CONTROL_BUTTON_B_MOMENTARY_1S + option].get().set(0);
+      // Send assigned default midi message
+      pages[page][CONTROL_BUTTON_B_MOMENTARY_1S + option].get().sendMIDI();
     } else {
-      int state = pages[page][CONTROL_BUTTON_B].get().toggleState();
+      int state = pages[page][CONTROL_BUTTON_B].get().toggleValue();
       leds[1].setColor(state / 127.0);
     }
   };
 
   pots[0].on_move = [&](int midi_value) {
     controller_moved();
-    pages[page][CONTROL_POT_1].get().set(midi_value);
+    pages[page][CONTROL_POT_1].get().setValue(midi_value);
     leds[0].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[1].on_move = [&](int midi_value) {
     controller_moved();
-    pages[page][CONTROL_POT_2].get().set(midi_value);
+    pages[page][CONTROL_POT_2].get().setValue(midi_value);
     leds[0].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[2].on_move = [&](int midi_value) {
     controller_moved();
-    pages[page][CONTROL_POT_3].get().set(midi_value);
+    pages[page][CONTROL_POT_3].get().setValue(midi_value);
     leds[1].setColorOverlay(midi_value / 127.0, 500);
   };
 
   pots[3].on_move = [&](int midi_value) {
     controller_moved();
-    pages[page][CONTROL_POT_4].get().set(midi_value);
+    pages[page][CONTROL_POT_4].get().setValue(midi_value);
     leds[1].setColorOverlay(midi_value / 127.0, 500);
   };
 }
