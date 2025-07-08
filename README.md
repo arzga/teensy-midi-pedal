@@ -20,15 +20,16 @@ This repository contains the source code for a [Teensy microcontroller](https://
 
 ## Usage
 
-- Pressing L or R button toggles a MIDI CC between value 0 (off) and 127 (on). The actual controller depends on the selected page (1, 2 or 3).
-- Holding L button for 1 seconds switches to page 1 (e.g. fx & tone controls)
-- Holding L button for 2 seconds switches to page 2 (e.g. looper controls)
-- Holding L button for 3 seconds switches to page 3 (e.g. amp/cab simulation)
-- Pressing L+R buttons simultaneously enables "MIDI learn" mode (see below)
+- Pressing L or R button toggles an effect on/off. The actual action depends on the selected controller page (1, 2 or 3).
+- Holding L button for 1 led blinks switches to page 1 (e.g. fx & tone controls)
+- Holding L button for 2 led blinks switches to page 2 (e.g. looper controls)
+- Holding L button for 3 led blinks switches to page 3 (e.g. amp/cab simulation)
+- Holding R button for 1 to 3 led blinks can perform an auxillary action like switch the pedalboard or undo/redo looper.
+- Pressing L+R buttons simultaneously enables "MIDI teach" mode (see below)
 
-### MIDI learn mode ("teach" to be more accurate)
+### MIDI teach mode
 
-MIDI learn ("teach") mode waits for you to turn a knob or press a button before sending any MIDI. LEDs alternate to indicate learn mode.
+MIDI teach mode waits for you to turn a knob or press a button before sending any MIDI. LEDs alternate to indicate learn mode.
 
 Why is this special mode even needed? During normal operation, the controller periodically sends current MIDI CC values to the receiving MIDI device. Without the "teach mode", this MIDI dump would mess the learning process.  
 
