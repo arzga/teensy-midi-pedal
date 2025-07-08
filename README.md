@@ -4,11 +4,14 @@
 
 ## Why all this?
 
-My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Raspberry Pi based ModeP virtual pedalboard](https://blokas.io/modep/) (by awesome folks at MOD and Blokas) as it's versatile and compact, but it required a separate phone, computer or display for any adjustments during play. 
+My motivation of this project was to adjust my MIDI controllable guitar effects with ease. I like my [Raspberry Pi based ModeP virtual pedalboard](https://blokas.io/modep/) (by awesome folks at MOD and Blokas) as it's versatile and compact, but to control it I needed a separate phone, computer or display. 
 
-*Enter my MIDI controller stompbox*: I can now control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
+_Enter the MIDI controller stompbox_: I can now play and control the virtual pedalboard with physical foot switches and knobs, turn on the effects and control the looper.
 
-This repository contains the source code for a [Teensy microcontroller](https://www.pjrc.com/store/teensy40.html) that reads analog knobs and sends MIDI CC messages to a host computer via USB MIDI, along with the [wiring sketches](/hardware) and my print templates for the a [readymade enclosure](https://en.uraltone.com/uraltone-1590bb-double-valmiiksi-porattu-efektikotelo.html).
+This repository contains
+
+- The source code for a [Teensy microcontroller](https://www.pjrc.com/store/teensy40.html) that reads analog knobs and sends MIDI CC messages to a host computer via USB MIDI
+- [Wiring sketches](/hardware) and my print template I used with a [readymade enclosure](https://en.uraltone.com/uraltone-1590bb-double-valmiiksi-porattu-efektikotelo.html)
 
 ## Features
 
